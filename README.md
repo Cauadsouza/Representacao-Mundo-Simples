@@ -1,105 +1,36 @@
-# Atividade Prática - Representação do Mundo
+# Representação do Mundo
 
-Disciplina: Inteligência Artificial para Jogos I  
-Tema: Representação do Mundo
+Este projeto foi desenvolvido para a atividade prática da disciplina de Inteligência Artificial para Jogos I. A proposta é representar um mundo simples dividido em 9 áreas organizadas em uma malha 3x3, contendo inimigos e itens coletáveis.
 
-## Objetivo
+O jogador se movimenta livremente pelo cenário enquanto uma câmera acompanha sua posição. A malha do mundo é independente da câmera: dependendo de onde o jogador estiver dentro de uma área, apenas as regiões próximas ficam ativas. Os NPCs das áreas ativas perseguem o jogador em linha reta, enquanto os NPCs das áreas inativas continuam armazenados, mas não são atualizados.
 
-Este projeto implementa um nível de jogo 2D no qual o mundo é dividido em **9 áreas organizadas em uma malha 3x3**.
+Também foram adicionados itens de vida e munição. A munição permite causar dano nos inimigos próximos, e o objetivo é permanecer vivo até o final do tempo de sobrevivência. O modo de debug permite visualizar quais áreas estão ativas e comparar a quantidade total de NPCs com a quantidade atualizada em cada frame.
 
-O foco da solução não é a complexidade gráfica, mas demonstrar a representação espacial do mundo e como essa representação pode reduzir o trabalho realizado pela IA.
+## Execução e controles
 
-## Funcionalidades
-
-- mundo dividido em 9 áreas;
-- jogador controlado por WASD ou setas;
-- viewport independente da malha;
-- ativação de áreas de acordo com a proximidade do jogador das bordas;
-- no máximo 4 áreas ativas simultaneamente;
-- somente NPCs de áreas ativas recebem atualização;
-- NPCs perseguem o jogador em linha reta;
-- NPCs podem atravessar áreas;
-- itens de vida e munição;
-- ataque em área usando munição;
-- condição de vitória por sobrevivência;
-- modo de debug;
-- três cenários de teste com quantidades diferentes de NPCs.
-
-## Controles
-
-| Tecla | Ação |
-|---|---|
-| W, A, S, D / setas | movimentar |
-| Espaço | gastar 1 munição e causar dano nos NPCs próximos |
-| F1 | ativar/desativar debug |
-| 1 | teste com 10 NPCs por área (90 inicialmente) |
-| 2 | teste com 50 NPCs por área (450 inicialmente) |
-| 3 | teste com 200 NPCs por área (1800 inicialmente) |
-| R | reiniciar depois de vitória/derrota |
-
-## Áreas ativas
-
-A área atual do jogador fica sempre ativa.
-
-Quando o jogador se aproxima de uma borda, a área vizinha correspondente também é ativada.
-
-Quando o jogador se aproxima de um canto, a área diagonal também é ativada.
-
-Dessa forma, normalmente existem:
-
-- 1 área ativa quando o jogador está longe das bordas;
-- 2 áreas ativas quando está próximo de uma borda;
-- até 4 áreas ativas quando está próximo de um canto.
-
-Isso evita atualizar NPCs que estão distantes e não são relevantes naquele momento.
-
-## Viewport
-
-As posições do jogador, NPCs e itens são armazenadas em coordenadas globais do mundo.
-
-A câmera (`Camera2D`) possui posição própria e acompanha o jogador. Por isso, o que está sendo mostrado na tela é independente da divisão 3x3 usada pela lógica do jogo.
-
-## Transferência de NPCs entre áreas
-
-Cada área armazena seus próprios NPCs.
-
-Quando um NPC atualizado atravessa uma borda, sua nova posição é usada para descobrir a nova célula da malha. A transferência só é efetuada depois do processamento dos NPCs daquele frame, evitando alterar o vetor enquanto ele está sendo percorrido.
-
-## Como compilar
-
-É necessário:
-
-- CMake 3.20 ou superior;
-- compilador C++17;
-- Git e conexão com a internet na primeira compilação caso a raylib não esteja instalada.
-
-### Linux
-
-```bash
-make
-```
-
-ou:
+O projeto usa C++17, CMake e raylib. Caso a raylib não esteja instalada, o CMake tenta obtê-la automaticamente na primeira compilação.
 
 ```bash
 cmake -S . -B build
 cmake --build build -j
-```
-
-Depois:
-
-```bash
 ./build/representacao_mundo
 ```
 
-O CMake tenta usar uma instalação existente da raylib. Caso ela não exista, a biblioteca é baixada automaticamente através do `FetchContent`.
+Também é possível usar:
 
-## Link da solução
+```bash
+make
+make run
+```
 
-**SUBSTITUIR ANTES DE ENTREGAR:**
+Controles principais:
 
-https://github.com/SEU-USUARIO/representacao-mundo
+- `WASD` ou setas: movimentação;
+- `Espaço`: usar uma munição e atacar inimigos próximos;
+- `F1`: mostrar ou esconder as informações de debug;
+- `1`, `2` e `3`: trocar a quantidade de NPCs usada no teste;
+- `R`: reiniciar após vitória ou derrota.
 
-## Observação para entrega
+**Aluno:** CAUA DANTAS DE SOUZA
 
-O arquivo `docs/Relatorio_Atividade.pdf` apresenta as escolhas de projeto e pode ser utilizado como o arquivo principal da entrega após substituir o link do repositório.
+**Link da solução:** https://github.com/Cauadsouza/Representacao-Mundo-Simples
